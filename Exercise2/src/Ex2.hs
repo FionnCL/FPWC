@@ -24,13 +24,15 @@ f1 xs = case drop (143) xs of
 f2 :: [Int] -> Int
 -- sums every 263rd element of its input
 f2 ns = case drop (262) ns of
-              y : ys -> y + f2 ys: f2 ys
+              y : ys -> y + f2 ys -- y + (y2 + (y3 + (y4 + (...))))
               [] -> 0
 
 -- Q3 (4 marks)
 f3 :: [Int] -> Int
 -- multiplies every 341st element of its input
-f3 ns = undefined
+f3 ns = case drop (340) ns of
+              y : ys -> y * f3 ys -- y * (y2 * (y3 * (y4 * (...))))
+              [] -> 1
 
 -- Q4 (8 marks)
 f4 :: [Maybe Int] -> (Int,[Maybe Int])
@@ -61,4 +63,3 @@ f5 mis = undefined
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
-
