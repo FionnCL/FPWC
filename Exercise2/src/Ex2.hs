@@ -1,4 +1,8 @@
 module Ex2 where
+import Data.Maybe
+import Debug.Trace
+
+debug = flip trace
 
 add :: Int -> Int -> Int
 add x y = (x+y) `mod` 65563
@@ -15,9 +19,10 @@ mul x y
 -- Q1 (3 marks)
 f1 :: [a] -> [a]
 -- returns a list of every 144th element of its input
--- ANALYSE THIS AND SEE HOW IT WORKS!
+-- this will drop the first 143 elements of xs, then take the 144th and append it to f1 ys
+-- empty list will return empty list
 f1 xs = case drop (143) xs of
-              y : ys -> y : f1 ys
+              y : ys -> y : f1 ys -- y : (y2 : (y3 : (y4 : (...))))
               [] -> []
 
 -- Q2 (3 marks)
@@ -35,7 +40,7 @@ f3 ns = case drop (340) ns of
               [] -> 1
 
 -- Q4 (8 marks)
-f4 :: [Maybe Int] -> (Int,[Maybe Int])
+f4 :: [Maybe Int] -> (Int, [Maybe Int])
 -- Operation Table (See Exercise2 description on BB)
 --    ___________________________________________
 --    | opcode | operation | operands | Nothing |
@@ -53,7 +58,45 @@ f4 :: [Maybe Int] -> (Int,[Maybe Int])
 --    |   53   |    mul    | stop@ 6  | skip    |
 --    |   35   |    mul    | stop@ 3  | 1       |
 --    -------------------------------------------
-f4 mis = undefined
+f4 (Just x:xs)
+	| x == 60	= (addRecurse (take 6 xs), (drop 6 xs)) `debug` "opcode 60"
+	| x == 32	= (addRecurse (take 6 xs), (drop 6 xs)) `debug` "opcode 32"
+	| x == 41	= (addRecurse (take 6 xs), (drop 6 xs)) `debug` "opcode 41"
+    | otherwise = (x,xs)
+	-- | x == 60	= addFix xs 6
+	-- | x == 32	= addFix xs 6
+	-- | x == 41	= addFix xs 6
+	-- | x == 71	= addStop xs 6
+	-- | x == 40	= addStop xs 3
+	-- | x == 68	= addStop xs 4
+	-- | x == 73	= mulFix xs 5
+	-- | x == 57	= mulFix xs 5
+	-- | x == 52	= mulFix xs 6
+	-- | x == 43	= mulStop xs 4
+	-- | x == 53	= mulStop xs 6
+	-- | x == 35	= mulStop xs 3
+
+-- NOTE: rest means "rest of the integer list"
+-- An opcode defines three things: 
+--    1.  OPERATION(add, mul),
+--    2.  HOW MANY DATA VALUES(operands) TO PROCESS(fixed/stop@),
+--          a.  fixed N means operate on the next N numbers.
+--          b.  stop @K means stop when value K is encountered(not considered an operand).
+--    3.  HOW TO HANDLE CORUPTTED VALUES(stop/skip/def-value)
+--          a. stop = finish calculation
+--          b. skip = move to next list element
+--          c. N = treat corrupted element as having value N
+--    This gives 12 combinations of things to do.
+--    Opcode 42(say) does "add" with "fixed 3" and "terminate":
+--        f4 [42,2,4,6,rest] results in 12,rest
+--        f4 [42,2,X,6,rest] results in 2,[6,rest]
+--    Opcode 24(say) does "mul" with "stop@0" and "skip":
+--        f4 [23,2,4,6,2,0,rest] results in 96,rest
+--        f4 [23,2,X,6,2,0,rest] results in 24,rest
+--        f4 [23,2,6,2,2,2] results in 96,[]
+--        
+--        f4, given an empty list, returns 0.
+-- 
 
 -- Q5 (2 marks)
 f5 :: [Maybe Int] -> [Int]
@@ -63,3 +106,30 @@ f5 mis = undefined
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
+-- ADDITION HELPERS
+addRecurse :: [Maybe Int] -> Int
+addRecurse mis = case mis of
+	y : ys ->	(fromJust y) + (addRecurse ys)  `debug` "Next element!"
+	isNothing -> 0 `debug` "NOTHING!"
+
+-- addFix :: ([Maybe Int], Int) -> (Int, [Maybe Int])
+-- addFix ((x:xs), fix) = 
+-- 	if fix > 0
+-- 		then (x + addFix (xs, fix - 1), xs)
+-- 		else return (x, xs)
+
+-- addStop :: ([Maybe Int], Int) -> (Int, [Maybe Int])
+-- addStop ((x:xs), stop)
+-- 	| x /= stop 	=	(x + addStop (xs, stop), xs)
+-- 	| otherwise		=	(x, xs)
+
+-- -- MULTIPLICATION HELPERS
+-- mulFix :: ([Maybe Int], Int) -> (Int, [Maybe Int])
+-- mulFix ((x:xs), fix)
+-- 	| fix > 0 	=	(x * mulFix (xs, (fix - 1)), xs)
+-- 	| otherwise		=	(x, xs)
+
+-- mulStop :: ([Maybe Int], Int) -> (Int, [Maybe Int])
+-- mulStop ((x:xs), stop)
+-- 	| x /= stop 	=	(x * mulStop (xs, stop), xs)
+-- 	| otherwise		=	(x, xs)

@@ -42,12 +42,12 @@ getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: 
 
 
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
-bindir     = "C:\\Users\\camac\\Desktop\\FPCW\\.stack-work\\install\\3f4028d4\\bin"
-libdir     = "C:\\Users\\camac\\Desktop\\FPCW\\.stack-work\\install\\3f4028d4\\lib\\x86_64-windows-ghc-9.4.7\\ex2-1.0.0.0-JCbPQ40NXyqKzrU12jpIWh-ex2"
-dynlibdir  = "C:\\Users\\camac\\Desktop\\FPCW\\.stack-work\\install\\3f4028d4\\lib\\x86_64-windows-ghc-9.4.7"
-datadir    = "C:\\Users\\camac\\Desktop\\FPCW\\.stack-work\\install\\3f4028d4\\share\\x86_64-windows-ghc-9.4.7\\ex2-1.0.0.0"
-libexecdir = "C:\\Users\\camac\\Desktop\\FPCW\\.stack-work\\install\\3f4028d4\\libexec\\x86_64-windows-ghc-9.4.7\\ex2-1.0.0.0"
-sysconfdir = "C:\\Users\\camac\\Desktop\\FPCW\\.stack-work\\install\\3f4028d4\\etc"
+bindir     = "C:\\Users\\camac\\Desktop\\FPCW\\Exercise2\\.stack-work\\install\\3f4028d4\\bin"
+libdir     = "C:\\Users\\camac\\Desktop\\FPCW\\Exercise2\\.stack-work\\install\\3f4028d4\\lib\\x86_64-windows-ghc-9.4.7\\ex2-1.0.0.0-JCbPQ40NXyqKzrU12jpIWh-ex2"
+dynlibdir  = "C:\\Users\\camac\\Desktop\\FPCW\\Exercise2\\.stack-work\\install\\3f4028d4\\lib\\x86_64-windows-ghc-9.4.7"
+datadir    = "C:\\Users\\camac\\Desktop\\FPCW\\Exercise2\\.stack-work\\install\\3f4028d4\\share\\x86_64-windows-ghc-9.4.7\\ex2-1.0.0.0"
+libexecdir = "C:\\Users\\camac\\Desktop\\FPCW\\Exercise2\\.stack-work\\install\\3f4028d4\\libexec\\x86_64-windows-ghc-9.4.7\\ex2-1.0.0.0"
+sysconfdir = "C:\\Users\\camac\\Desktop\\FPCW\\Exercise2\\.stack-work\\install\\3f4028d4\\etc"
 
 getBinDir     = catchIO (getEnv "ex2_bindir")     (\_ -> return bindir)
 getLibDir     = catchIO (getEnv "ex2_libdir")     (\_ -> return libdir)
