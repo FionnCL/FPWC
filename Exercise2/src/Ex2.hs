@@ -59,22 +59,19 @@ f4 :: [Maybe Int] -> (Int, [Maybe Int])
 --    |   35   |    mul    | stop@ 3  | 1       |
 --    -------------------------------------------
 f4 (Just x:xs)
-	| x == 60	= (addRecurse (take 6 xs), (drop 6 xs)) `debug` "opcode 60"
-	| x == 32	= (addRecurse (take 6 xs), (drop 6 xs)) `debug` "opcode 32"
-	| x == 41	= (addRecurse (take 6 xs), (drop 6 xs)) `debug` "opcode 41"
-    | otherwise = (x,xs)
-	-- | x == 60	= addFix xs 6
-	-- | x == 32	= addFix xs 6
-	-- | x == 41	= addFix xs 6
-	-- | x == 71	= addStop xs 6
-	-- | x == 40	= addStop xs 3
-	-- | x == 68	= addStop xs 4
-	-- | x == 73	= mulFix xs 5
-	-- | x == 57	= mulFix xs 5
-	-- | x == 52	= mulFix xs 6
-	-- | x == 43	= mulStop xs 4
-	-- | x == 53	= mulStop xs 6
-	-- | x == 35	= mulStop xs 3
+	| x == 60	= (addRecurse (take 6 xs), (drop 6 xs))
+	| x == 32	= (addRecurse (take 6 xs), (drop 6 xs))
+	| x == 41	= (addRecurse (take 6 xs), (drop 6 xs))
+	| x == 71	= (addRecurse (findStop xs 6), (drop (length (findStop xs 6)) xs))
+	| x == 40	= (addRecurse (findStop xs 3), (drop (length (findStop xs 3)) xs))
+	| x == 68	= (addRecurse (findStop xs 4), (drop (length (findStop xs 4)) xs))
+	| x == 73	= (mulRecurse (take 5 xs), (drop 5 xs))
+	| x == 57	= (mulRecurse (take 5 xs), (drop 5 xs))
+	| x == 52	= (mulRecurse (take 6 xs), (drop 6 xs))
+	| x == 43	= (mulRecurse (findStop xs 4), (drop (length (findStop xs 4)) xs))
+	| x == 53	= (mulRecurse (findStop xs 6), (drop (length (findStop xs 6)) xs))
+	| x == 35	= (mulRecurse (findStop xs 3), (drop (length (findStop xs 3)) xs))
+	| otherwise = (x,xs)
 
 -- NOTE: rest means "rest of the integer list"
 -- An opcode defines three things: 
@@ -109,27 +106,15 @@ f5 mis = undefined
 -- ADDITION HELPERS
 addRecurse :: [Maybe Int] -> Int
 addRecurse mis = case mis of
-	y : ys ->	(fromJust y) + (addRecurse ys)  `debug` "Next element!"
-	isNothing -> 0 `debug` "NOTHING!"
+	y : ys ->	(fromJust y) + (addRecurse ys)
+	isNothing -> 0
 
--- addFix :: ([Maybe Int], Int) -> (Int, [Maybe Int])
--- addFix ((x:xs), fix) = 
--- 	if fix > 0
--- 		then (x + addFix (xs, fix - 1), xs)
--- 		else return (x, xs)
+findStop :: [Maybe Int] -> Int -> [Maybe Int]
+findStop (x:xs) stopNum
+	| x /= (Just stopNum) = x : findStop xs stopNum
+	| otherwise = []
 
--- addStop :: ([Maybe Int], Int) -> (Int, [Maybe Int])
--- addStop ((x:xs), stop)
--- 	| x /= stop 	=	(x + addStop (xs, stop), xs)
--- 	| otherwise		=	(x, xs)
-
--- -- MULTIPLICATION HELPERS
--- mulFix :: ([Maybe Int], Int) -> (Int, [Maybe Int])
--- mulFix ((x:xs), fix)
--- 	| fix > 0 	=	(x * mulFix (xs, (fix - 1)), xs)
--- 	| otherwise		=	(x, xs)
-
--- mulStop :: ([Maybe Int], Int) -> (Int, [Maybe Int])
--- mulStop ((x:xs), stop)
--- 	| x /= stop 	=	(x * mulStop (xs, stop), xs)
--- 	| otherwise		=	(x, xs)
+mulRecurse :: [Maybe Int] -> Int
+mulRecurse mis = case mis of
+	y : ys -> (fromJust y) * (mulRecurse ys)
+	isNothing -> 1
