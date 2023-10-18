@@ -107,7 +107,10 @@ f5 mis = undefined
 addRecurse :: [Maybe Int] -> Int
 addRecurse mis = case mis of
 	y : ys ->	(fromJust y) + (addRecurse ys)
-	isNothing -> 0
+	isNothing -> case type of
+		"term" -> I DON'T KNOW
+		"skip" -> addRecurse ys
+		_ -> type + (addRecurse ys)
 
 findStop :: [Maybe Int] -> Int -> [Maybe Int]
 findStop (x:xs) stopNum
@@ -117,4 +120,7 @@ findStop (x:xs) stopNum
 mulRecurse :: [Maybe Int] -> Int
 mulRecurse mis = case mis of
 	y : ys -> (fromJust y) * (mulRecurse ys)
-	isNothing -> 1
+	isNothing -> case type of
+		"term" -> I DON'T KNOW
+		"skip" -> addRecurse ys
+		_ -> type * (addRecurse ys)
