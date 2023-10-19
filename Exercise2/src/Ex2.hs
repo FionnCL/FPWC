@@ -60,19 +60,28 @@ f4 :: [Maybe Int] -> (Int, [Maybe Int])
 --    |   35   |    mul    | stop@ 3  | 1       |
 --    -------------------------------------------
 -- -1 = term, -2 = skip, any other value will be set as the number it must be
+-- I know the code is kind of giving spaghetti vibes so I apologise to anyone reading it.
+-- Structure is as goes:
+--  - fixed functions will take the first X values as required, and deal with a skip, termination or def-value as required too.
+--  - stop functions will find where to stop. This differs depending on if the function is a terminate function.
+--      - This is important as it will give return[1] in the tuple, which if it is meant to terminate, yet there is no value to stop@, then it will go on forever.
+--      - This leaves us with the correct answer in return[0], but an empty list in return[1], as it drops all the values out of it.
+-- I know there were shorter ways to do this, such as simply having this opcode guard, followed by a single function with arguments like operation type and nothing handler -
+-- to then iterate through the list and build it as you go. As this is my first time doing anything real in Haskell I just started programming and learning as I go. Forgive any-
+-- spaghetti code, I will improve it next time.
 f4 (Just x:xs)
-  | x == 60 = (addRecurse (take 6 xs) (-1), (drop 6 xs))
+  | x == 60 = (addRecurse (take 6 xs) (-1), (drop (min (terminateLength xs) 6) xs))
   | x == 32 = (addRecurse (take 6 xs) (-2), (drop 6 xs))
   | x == 41 = (addRecurse (take 6 xs) 9, (drop 6 xs)) 
-  | x == 71 = (addRecurse (findStop xs 6) (-1), (drop (length (findStop xs 6) + 1) xs))
-  | x == 40 = (addRecurse (findStop xs 3) (-2), (drop (length (findStop xs 3) + 1) xs))
-  | x == 68 = (addRecurse (findStop xs 4) 6, (drop (length (findStop xs 4) + 1) xs))
-  | x == 73 = (mulRecurse (take 5 xs) (-1), (drop 5 xs))
+  | x == 71 = (addRecurse (findStop xs 6 True) (-1), (drop (length (findStop xs 6 True) + 1) xs))
+  | x == 40 = (addRecurse (findStop xs 3 False) (-2), (drop (length (findStop xs 3 False) + 1) xs))
+  | x == 68 = (addRecurse (findStop xs 4 False) 6, (drop (length (findStop xs 4 False) + 1) xs))
+  | x == 73 = (mulRecurse (take 5 xs) (-1), (drop (min (terminateLength xs) 5) xs))
   | x == 57 = (mulRecurse (take 5 xs) (-2), (drop 5 xs))
   | x == 52 = (mulRecurse (take 6 xs) 7, (drop 6 xs))
-  | x == 43 = (mulRecurse (findStop xs 4) (-1), (drop (length (findStop xs 4) + 1) xs))
-  | x == 53 = (mulRecurse (findStop xs 6) (-2), (drop (length (findStop xs 6) + 1) xs))
-  | x == 35 = (mulRecurse (findStop xs 3) 1, (drop (length (findStop xs 3) + 1) xs))
+  | x == 43 = (mulRecurse (findStop xs 4 True) (-1), (drop (length (findStop xs 4 True) + 1) xs))
+  | x == 53 = (mulRecurse (findStop xs 6 False) (-2), (drop (length (findStop xs 6 False) + 1) xs))
+  | x == 35 = (mulRecurse (findStop xs 3 False) 1, (drop (length (findStop xs 3 False) + 1) xs))
   | otherwise = (x,xs)
 
 -- NOTE: rest means "rest of the integer list"
@@ -81,7 +90,7 @@ f4 (Just x:xs)
 --    2.  HOW MANY DATA VALUES(operands) TO PROCESS(fixed/stop@),
 --          a.  fixed N means operate on the next N numbers.
 --          b.  stop @K means stop when value K is encountered(not considered an operand).
---    3.  HOW TO HANDLE CORUPTTED VALUES(stop/skip/def-value)
+--    3.  HOW TO HANDLE CORRUPTED VALUES(stop/skip/def-value)
 --          a. stop(term/terminate) = finish calculation
 --          b. skip = move to next list element
 --          c. N = treat corrupted element as having value N
@@ -110,26 +119,34 @@ f5 mis = undefined
 addRecurse :: [Maybe Int] -> Int -> Int
 addRecurse [] _ = 0
 addRecurse (x:xs) nothingCase
-  | not(isNothing x) = (fromJust x) + (addRecurse xs nothingCase) `debug` "Recursed Normally"
+  | not(isNothing x) = (fromJust x) + (addRecurse xs nothingCase)
   | isNothing x = 
     case nothingCase of
-      (-1) -> 0 `debug` "-1"
-      (-2) -> addRecurse xs nothingCase `debug` "-2"
-      otherwise -> (nothingCase) + (addRecurse xs nothingCase) `debug` "Def-val"
+      (-1) -> 0
+      (-2) -> addRecurse xs nothingCase
+      otherwise -> (nothingCase) + (addRecurse xs nothingCase)
 
-findStop :: [Maybe Int] -> Int -> [Maybe Int]
-findStop (x:xs) stopNum
-  | x /= (Just stopNum) = x : findStop xs stopNum
+terminateLength :: [Maybe Int] -> Int
+terminateLength [] = 0
+terminateLength (x:xs)
+  | not(isNothing x) = terminateLength xs + 1
+  | otherwise = 1
+
+findStop :: [Maybe Int] -> Int -> Bool -> [Maybe Int]
+findStop [] _ _ = []
+findStop (x:xs) stopNum isTerminate
+  | (x == (Just stopNum)) = []
+  | (not(isNothing x)) = x : findStop xs stopNum isTerminate
+  | (isNothing x) && isTerminate = []
+  | (isNothing x) && (not isTerminate) = x : findStop xs stopNum isTerminate
   | otherwise = []
-
--- findTerminate :: [Maybe Int] -> [Maybe Int]
 
 mulRecurse :: [Maybe Int] -> Int-> Int
 mulRecurse [] _ = 1
 mulRecurse (x:xs) nothingCase
-  | isJust x = (fromJust x) + (addRecurse xs nothingCase)
+  | isJust x = (fromJust x) * (mulRecurse xs nothingCase)
   | otherwise = 
     case nothingCase of
-      (-1) -> 1 `debug` "-1"
-      (-2) -> mulRecurse xs nothingCase `debug` "-2"
-      otherwise -> (nothingCase) * (mulRecurse xs nothingCase) `debug` "Def-Val"
+      (-1) -> 1
+      (-2) -> mulRecurse xs nothingCase
+      otherwise -> (nothingCase) * (mulRecurse xs nothingCase)
