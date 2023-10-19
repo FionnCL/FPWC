@@ -1,7 +1,7 @@
 module Ex2 where
 import Data.Maybe
 import Debug.Trace
-import Text.Printf
+import Data.Tuple
 
 debug = flip trace
 
@@ -69,6 +69,7 @@ f4 :: [Maybe Int] -> (Int, [Maybe Int])
 -- I know there were shorter ways to do this, such as simply having this opcode guard, followed by a single function with arguments like operation type and nothing handler -
 -- to then iterate through the list and build it as you go. As this is my first time doing anything real in Haskell I just started programming and learning as I go. Forgive any-
 -- spaghetti code, I will improve it next time.
+f4 (Nothing:xs) = f4 xs
 f4 (Just x:xs)
   | x == 60 = (addRecurse (take 6 xs) (-1), (drop (min (terminateLength xs) 6) xs))
   | x == 32 = (addRecurse (take 6 xs) (-2), (drop 6 xs))
@@ -82,7 +83,7 @@ f4 (Just x:xs)
   | x == 43 = (mulRecurse (findStop xs 4 True) (-1), (drop (length (findStop xs 4 True) + 1) xs))
   | x == 53 = (mulRecurse (findStop xs 6 False) (-2), (drop (length (findStop xs 6 False) + 1) xs))
   | x == 35 = (mulRecurse (findStop xs 3 False) 1, (drop (length (findStop xs 3 False) + 1) xs))
-  | otherwise = (x,xs)
+  | otherwise = f4 xs
 
 -- NOTE: rest means "rest of the integer list"
 -- An opcode defines three things: 
@@ -110,7 +111,11 @@ f4 (Just x:xs)
 f5 :: [Maybe Int] -> [Int]
 -- uses f4 to process all the opcodes in the maybe list,
 -- by repeatedly applying it to the leftover part
-f5 mis = undefined
+-- fst(f4 (x:xs)) gets the current answer, if it can. If not, it keeps iterating to a next number in the f4 function.
+-- f5(snd (f4 (x:xs))) takes the "rest" of the list after f4 is done its operations. Then it recurses and continues to next number.
+f5 [] = []
+f5 (x:xs) = fst(f4 (x:xs)) : f5(snd (f4 (x:xs)))
+
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
