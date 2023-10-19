@@ -61,18 +61,18 @@ f4 :: [Maybe Int] -> (Int, [Maybe Int])
 --    -------------------------------------------
 -- -1 = term, -2 = skip, any other value will be set as the number it must be
 f4 (Just x:xs)
-  | x == 60 = (addRecurse (take 6 xs) (-1), (drop 6 xs)) `debug` "OPCODE: 60"
+  | x == 60 = (addRecurse (take 6 xs) (-1), (drop 6 xs))
   | x == 32 = (addRecurse (take 6 xs) (-2), (drop 6 xs))
-  | x == 41 = (addRecurse (take 6 xs) 9, (drop 6 xs)) `debug` "OPCODE: 41"
-  | x == 71 = (addRecurse (findStop xs 6) (-1), (drop (length (findStop xs 6)) xs))
-  | x == 40 = (addRecurse (findStop xs 3) (-2), (drop (length (findStop xs 3)) xs))
-  | x == 68 = (addRecurse (findStop xs 4) 6, (drop (length (findStop xs 4)) xs))
+  | x == 41 = (addRecurse (take 6 xs) 9, (drop 6 xs)) 
+  | x == 71 = (addRecurse (findStop xs 6) (-1), (drop (length (findStop xs 6) + 1) xs))
+  | x == 40 = (addRecurse (findStop xs 3) (-2), (drop (length (findStop xs 3) + 1) xs))
+  | x == 68 = (addRecurse (findStop xs 4) 6, (drop (length (findStop xs 4) + 1) xs))
   | x == 73 = (mulRecurse (take 5 xs) (-1), (drop 5 xs))
   | x == 57 = (mulRecurse (take 5 xs) (-2), (drop 5 xs))
   | x == 52 = (mulRecurse (take 6 xs) 7, (drop 6 xs))
-  | x == 43 = (mulRecurse (findStop xs 4) (-1), (drop (length (findStop xs 4)) xs))
-  | x == 53 = (mulRecurse (findStop xs 6) (-2), (drop (length (findStop xs 6)) xs))
-  | x == 35 = (mulRecurse (findStop xs 3) 1, (drop (length (findStop xs 3)) xs))
+  | x == 43 = (mulRecurse (findStop xs 4) (-1), (drop (length (findStop xs 4) + 1) xs))
+  | x == 53 = (mulRecurse (findStop xs 6) (-2), (drop (length (findStop xs 6) + 1) xs))
+  | x == 35 = (mulRecurse (findStop xs 3) 1, (drop (length (findStop xs 3) + 1) xs))
   | otherwise = (x,xs)
 
 -- NOTE: rest means "rest of the integer list"
