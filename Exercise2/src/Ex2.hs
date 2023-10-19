@@ -70,6 +70,7 @@ f4 :: [Maybe Int] -> (Int, [Maybe Int])
 -- to then iterate through the list and build it as you go. As this is my first time doing anything real in Haskell I just started programming and learning as I go. Forgive any-
 -- spaghetti code, I will improve it next time.
 f4 (Nothing:xs) = f4 xs
+f4 [] = (0, [])
 f4 (Just x:xs)
   | x == 60 = (addRecurse (take 6 xs) (-1), (drop (min (terminateLength xs) 6) xs))
   | x == 32 = (addRecurse (take 6 xs) (-2), (drop 6 xs))
