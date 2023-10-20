@@ -69,6 +69,8 @@ f4 :: [Maybe Int] -> (Int, [Maybe Int])
 -- I know there were shorter ways to do this, such as simply having this opcode guard, followed by a single function with arguments like operation type and nothing handler -
 -- to then iterate through the list and build it as you go. As this is my first time doing anything real in Haskell I just started programming and learning as I go. Forgive any-
 -- spaghetti code, I will improve it next time.
+
+-- NOTE: I IMPLEMENTED MY OWN ADD AND MUL FUNCTIONS SO THAT IS WHY THERE ARE MODULI FUNCTIONS HERE! 
 f4 (Nothing:xs) = f4 xs
 f4 [] = (0, [])
 f4 (Just x:xs)
@@ -150,8 +152,8 @@ findStop (x:xs) stopNum isTerminate
 mulRecurse :: [Maybe Int] -> Int-> Int
 mulRecurse [] _ = 1
 mulRecurse (x:xs) nothingCase
-  | (isJust x) && ((fromJust x) == 0) = 1 * (mulRecurse xs nothingCase)
-  | isJust x = max ((fromJust x) * (mulRecurse xs nothingCase)) 1
+  | (not (isNothing x)) && (isJust x) && ((fromJust x) == 0) = 1 * (mulRecurse xs nothingCase)
+  | (not (isNothing x)) && isJust x = (max ((fromJust x) * (mulRecurse xs nothingCase)) (1 * (mulRecurse xs nothingCase)))
   | otherwise = 
     case nothingCase of
       (-1) -> 1
