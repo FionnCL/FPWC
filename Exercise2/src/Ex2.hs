@@ -150,7 +150,8 @@ findStop (x:xs) stopNum isTerminate
 mulRecurse :: [Maybe Int] -> Int-> Int
 mulRecurse [] _ = 1
 mulRecurse (x:xs) nothingCase
-  | isJust x = (fromJust x) * (mulRecurse xs nothingCase)
+  | (isJust x) && ((fromJust x) == 0) = 1 * (mulRecurse xs nothingCase)
+  | isJust x = max ((fromJust x) * (mulRecurse xs nothingCase)) 1
   | otherwise = 
     case nothingCase of
       (-1) -> 1
