@@ -1,9 +1,4 @@
 module Ex2 where
-import Data.Maybe
-import Debug.Trace
-import Data.Tuple
-
-debug = flip trace
 
 add :: Int -> Int -> Int
 add x y = (x+y) `mod` 65563
@@ -122,7 +117,26 @@ f5 (x:xs) = fst(f4 (x:xs)) : f5(snd (f4 (x:xs)))
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
--- ADDITION HELPERS
+-- From Data.Maybe
+isNothing :: Maybe a -> Bool
+isNothing Nothing = True
+isNothing _ = False
+
+isJust :: Maybe a -> Bool
+isJust Nothing = False
+isJust _ = True
+
+fromJust :: Maybe a -> a
+fromJust Nothing  = error "Data.Strict.Maybe.fromJust: Nothing"
+fromJust (Just x) = x
+
+-- fst :: (a,b) -> a
+-- fst (x,_) = x
+
+-- snd :: (a,b) -> b
+-- snd (_,y) = y
+
+-- HELPERS
 -- The second argument will be denoted as: -1 for term, -2 for skip, and any other value will become x
 addRecurse :: [Maybe Int] -> Int -> Int
 addRecurse [] _ = 0
