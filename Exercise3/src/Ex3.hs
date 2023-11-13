@@ -28,23 +28,25 @@ find s ((t,f):d)
 
 -- Q1 (8 marks)
 -- implement the following function (which may have runtime errors):
+fromJust :: Maybe a -> a
+fromJust (Just a) = a
+fromJust Nothing = error "Data.Strict.Maybe.fromJust: Nothing"
+
 eval :: Dict -> CExpr -> Float
 eval _ (Value f) = f
---eval _ (VarNm s) = s
+eval d (VarNm s) = fromJust (find s d)
 eval d (Divide x y) = (eval d x) / (eval d y)
 eval d (MulBy x y) = (eval d x) * (eval d y)
-
--- BELOW THIS LINE IS PROBABLY WRONG
---eval d (AddInv x) = eval d (negate x) -- could do x * - 1?
-eval d (Not x) = if (eval d x)==0.0 then 1.0 else (eval d x)
-eval d (Dfrnt x y) = if (eval d x)/=(eval d y) then 1.0 else 0.0
-eval d (IsNil x) = if eval d x==0.0 then 1.0 else 0.0
+eval d (AddInv x) = 0 - (eval d x) -- could do x * - 1?
+eval d (Not x) = if (eval d x)==0.0 then (eval d (Value 1.0)) else (eval d x)
+eval d (Dfrnt x y) = if (eval d x)/=(eval d y) then (eval d (Value 1.0)) else (eval d (Value 0.0))
+eval d (IsNil x) = if eval d x==0.0 then (eval d (Value 1.0)) else (eval d (Value 0.0))
 
 -- Q2 (8 marks)
 -- implement the following function (which always returns a value):
 meval :: Dict -> CExpr -> Maybe Float
 meval _ (Value f) = Just f
---eval _ (VarNm s) = s
+meval d (VarNm s) = (find s d)
 meval d (Divide x y)
   = case (meval d x, meval d y) of
       (Just m, Just n) -> if n==0.0 then Nothing else Just (m/n)
@@ -53,20 +55,21 @@ meval d (MulBy x y)
   = case (meval d x, meval d y) of
       (Just m, Just n) -> Just (m*n)
       _ -> Nothing
-
--- BELOW THIS LINE IS PROBABLY WRONG
---eval d (AddInv x) = eval d (negate x) -- could do x * - 1?
+meval d (AddInv x)
+  = case (meval d x) of
+      (Just m) -> Just (0 - m)
+      _ -> Nothing
 meval d (Not x) 
   = case (meval d x) of
-      (Just m) -> if m==0.0 then (meval d 1.0) else Just m
+      (Just m) -> if m==0.0 then (meval d (Value 1.0)) else Just m
       _ -> Nothing
 meval d (Dfrnt x y)
   = case (meval d x, meval d y) of
-      (Just m, Just n) -> if m/=n then (meval d 1.0) else (meval d 0.0)
+      (Just m, Just n) -> if m/=n then (meval d (Value 1.0)) else (meval d (Value 0.0))
       _ -> Nothing
 meval d (IsNil x)
   = case (meval d x) of
-      (Just m) -> if m==0.0 then (meval d 1.0) else (meval d 0.0)
+      (Just m) -> if m==0.0 then (meval d (Value 1.0)) else (meval d (Value 0.0))
       _ -> Nothing
 
 -- Q3 (4 marks)
@@ -84,5 +87,3 @@ simp _ = error "Ex3Q3: simp not yet defined"
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
-fst :: (a,b) -> a
-fst (a,_) = a
