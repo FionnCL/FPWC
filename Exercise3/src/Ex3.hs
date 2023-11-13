@@ -28,17 +28,13 @@ find s ((t,f):d)
 
 -- Q1 (8 marks)
 -- implement the following function (which may have runtime errors):
-fromJust :: Maybe a -> a
-fromJust (Just a) = a
-fromJust Nothing = error "Data.Strict.Maybe.fromJust: Nothing"
-
 eval :: Dict -> CExpr -> Float
 eval _ (Value f) = f
 eval d (VarNm s) = fromJust (find s d)
 eval d (Divide x y) = (eval d x) / (eval d y)
 eval d (MulBy x y) = (eval d x) * (eval d y)
-eval d (AddInv x) = 0 - (eval d x) -- could do x * - 1?
-eval d (Not x) = if (eval d x)==0.0 then (eval d (Value 1.0)) else (eval d x)
+eval d (AddInv x) = 0 - (eval d x)
+eval d (Not x) = if (eval d x)==0.0 then (eval d (Value 1.0)) else (eval d (Value 0.0))
 eval d (Dfrnt x y) = if (eval d x)/=(eval d y) then (eval d (Value 1.0)) else (eval d (Value 0.0))
 eval d (IsNil x) = if eval d x==0.0 then (eval d (Value 1.0)) else (eval d (Value 0.0))
 
@@ -61,7 +57,7 @@ meval d (AddInv x)
       _ -> Nothing
 meval d (Not x) 
   = case (meval d x) of
-      (Just m) -> if m==0.0 then (meval d (Value 1.0)) else Just m
+      (Just m) -> if m==0.0 then (meval d (Value 1.0)) else (meval d (Value 0.0))
       _ -> Nothing
 meval d (Dfrnt x y)
   = case (meval d x, meval d y) of
@@ -96,3 +92,6 @@ simp x = x
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
+fromJust :: Maybe a -> a
+fromJust (Just a) = a
+fromJust Nothing = error "Data.Strict.Maybe.fromJust: Nothing"
