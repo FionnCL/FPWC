@@ -83,7 +83,16 @@ meval d (IsNil x)
 -- The following function should implement the two laws applicable
 -- for *your* CExpr datatype.
 simp :: CExpr -> CExpr
-simp _ = error "Ex3Q3: simp not yet defined"
+simp (MulBy x y)
+  = let x' = simp x
+        y' = simp y 
+    in case (x', y') of
+      (Value 0.0,m) -> Value 0.0 
+      (m,Value 0.0) -> Value 0.0
+      (Value 1.0,m) -> m 
+      (m,Value 1.0) -> m
+      _ -> (MulBy x' y')
+simp x = x
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
