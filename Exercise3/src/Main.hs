@@ -9,7 +9,7 @@ main
       [ "Running Exercise3."
       , "To run interpreter use 'stack ghci src/Ex3.hs'."
       , "You can add further strings of output here if it helps."
-      , "\"mval\" Tests"
+      , "\"eval\" Tests"
       , "eval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (MulBy (VarNm \"XD\") (Value 3)) = " ++ show (eval d (MulBy (VarNm "XD") (Value 3.0)))
       , "eval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Divide (Value 1) (Value 3)) = " ++ show (eval d (Divide (Value 1.0) (Value 3.0)))
       , "eval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Divide (Value 1) (Value 0)) = " ++ show (eval d (Divide (Value 1.0) (Value 0.0)))
