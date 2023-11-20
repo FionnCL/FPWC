@@ -97,8 +97,8 @@ dofold (op,z) = foldR z op
 -- so that `dofold` can be used to implement the fns. above.
 
 -- dofold lenTuple = len
--- lenTuple :: (Int -> Int -> Int,Int)
--- lenTuple x y = dofold (x,y)
+lenTuple :: (Int -> Int -> Int,Int)
+lenTuple len z = dofold (len,z)
 
 -- -- dofold sumupTuple = sumup
 -- sumupTuple :: (Int -> Int -> Int,Int)
