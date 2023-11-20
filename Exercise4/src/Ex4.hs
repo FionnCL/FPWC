@@ -36,32 +36,38 @@ type Thing = ([Int],[Bool])
 -- Q1 (8 marks)
 -- implement the following function (which always returns a value):
 mdeval :: MonadFail m => Dict -> CExpr -> m Float
-mdeval _ (Value f) = f
-mdeval d (VarNm s) = (find s d)
+mdeval _ (Value f) = return f
+mdeval d (VarNm s) = return (fromJust (find s d))
+-- DIVIDE PROBABLY NEEDS ERROR HANDLING
 mdeval d (Divide x y)
-  = case (mdeval d x, mdeval d y) of
-      (Just m, Just n) -> if n==0.0 then Nothing else Just (m/n)
-      _ -> Nothing
+  = do  a <- mdeval d x
+        b <- mdeval d y
+        if b==0.0
+          then return (0.0) -- I don't know what to return here
+          else return (a/b)
 mdeval d (MulBy x y)
-  = case (mdeval d x, mdeval d y) of
-      (Just m, Just n) -> Just (m*n)
-      _ -> Nothing
+  = do  a <- mdeval d x
+        b <- mdeval d y
+        return (a*b)
 mdeval d (AddInv x)
-  = case (mdeval d x) of
-      (Just m) -> Just (0 - m)
-      _ -> Nothing
+  = do  a <- mdeval d x
+        return (0-a)
 mdeval d (Not x) 
-  = case (mdeval d x) of
-      (Just m) -> if m==0.0 then (mdeval d (Value 1.0)) else (mdeval d (Value 0.0))
-      _ -> Nothing
+  = do  isNot <- mdeval d x
+        if isNot==0.0
+          then (mdeval d (Value 1.0)) 
+          else (mdeval d (Value 0.0)) 
 mdeval d (Dfrnt x y)
-  = case (mdeval d x, mdeval d y) of
-      (Just m, Just n) -> if m/=n then (mdeval d (Value 1.0)) else (mdeval d (Value 0.0))
-      _ -> Nothing
+  = do  expr1 <- mdeval d x
+        expr2 <- mdeval d y
+        if expr1/=expr2
+          then (mdeval d (Value 1.0)) 
+          else (mdeval d (Value 0.0)) 
 mdeval d (IsNil x)
-  = case (mdeval d x) of
-      (Just m) -> if m==0.0 then (mdeval d (Value 1.0)) else (mdeval d (Value 0.0))
-      _ -> Nothing
+  = do  isNot <- mdeval d x
+        if isNot==0.0
+          then (mdeval d (Value 1.0)) 
+          else (mdeval d (Value 0.0)) 
 
 -- Q2 (8 marks)
 -- Consider the following four recursive pattern definitions:
@@ -91,20 +97,20 @@ dofold (op,z) = foldR z op
 -- so that `dofold` can be used to implement the fns. above.
 
 -- dofold lenTuple = len
-lenTuple :: (Int -> Int -> Int,Int)
-lenTuple x y = dofold (x,y)
+-- lenTuple :: (Int -> Int -> Int,Int)
+-- lenTuple x y = dofold (x,y)
 
--- dofold sumupTuple = sumup
-sumupTuple :: (Int -> Int -> Int,Int)
-sumupTuple = dofold (x,y)
+-- -- dofold sumupTuple = sumup
+-- sumupTuple :: (Int -> Int -> Int,Int)
+-- sumupTuple = dofold (x,y)
 
--- dofold prodTuple = prod
-prodTuple :: (Int -> Int -> Int,Int)
-prodTuple = dofold (x,y)
+-- -- dofold prodTuple = prod
+-- prodTuple :: (Int -> Int -> Int,Int)
+-- prodTuple = dofold (x,y)
 
--- dofold catTuple = cat
-catTuple :: ([Thing] -> [Thing] -> [Thing],[Thing])
-catTuple = dofold (x,y)
+-- -- dofold catTuple = cat
+-- catTuple :: ([Thing] -> [Thing] -> [Thing],[Thing])
+-- catTuple = dofold (x,y)
 
 -- Q3 (11 marks)
 sub = subtract -- shorter!
@@ -115,4 +121,6 @@ ops = [(25-),(26-),(24-),(*22),(31-),(+29),(*20),(22-),(sub 22),(sub 23)]
 
 -- add extra material below here
 -- e.g.,  helper functions, test values, etc. ...
-
+fromJust :: Maybe a -> a
+fromJust (Just a) = a
+fromJust Nothing = error "Data.Strict.Maybe.fromJust: Nothing"

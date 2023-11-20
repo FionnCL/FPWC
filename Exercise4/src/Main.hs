@@ -1,6 +1,38 @@
 module Main where
 
 import Ex4
+import System.IO
+
+d = [("XX",1),("XD",20),("DD", 41)]
+
+writeWholeFile :: Handle -> String -> IO ()
+writeWholeFile _ [] = return ()
+writeWholeFile h (x:xs)
+ = do hPutChar h x
+      writeWholeFile h xs
+
+readWholeFile :: Handle -> IO String
+readWholeFile h
+ = do eof <- hIsEOF h
+      if eof then return []
+              else do c <- hGetChar h
+                      str <- readWholeFile h
+                      return (c:str)
+
+
+
+fCopyAllChars :: FilePath -> FilePath -> IO ()
+fCopyAllChars fromf tof
+  = do  ff <- openFile fromf ReadMode
+        str <- readWholeFile ff
+        print str
+        hClose ff
+        tf <- openFile tof WriteMode
+        writeWholeFile tf (str)
+        hClose tf
+
+
+fCopyAllChars "./input.dat" "./output.dat"
 
 main
   = putStrLn $ unlines
@@ -20,4 +52,17 @@ main
       , "and so on..."
       , "Continue until all input numbers have been processed."
       , "The resulting numbers should be written, one per line, to `output.dat`"
+
+      -- , "\"mdeval\" Tests"
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (MulBy (VarNm \"XD\") (Value 3)) = " ++ show (mdeval d (MulBy (VarNm "XD") (Value 3.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Divide (Value 1) (Value 3)) = " ++ show (mdeval d (Divide (Value 1.0) (Value 3.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Divide (Value 1) (Value 0)) = " ++ show (mdeval d (Divide (Value 1.0) (Value 0.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (AddInv (Value 1)) = " ++ show (mdeval d (AddInv (Value 1.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (AddInv (Value -1)) = " ++ show (mdeval d (AddInv (Value (-1.0))))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Not (Value 0)) = " ++ show (mdeval d (Not (Value 0.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Not (Value 1)) = " ++ show (mdeval d (Not (Value 1.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Dfrnt (Value 1) (Value 3)) = " ++ show (mdeval d (Dfrnt (Value 1.0) (Value 3.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Dfrnt (Value 1) (Value 1)) = " ++ show (mdeval d (Dfrnt (Value 1.0) (Value 1.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (IsNil (Value 0.0)) = " ++ show (mdeval d (IsNil (Value 0.0)))
+      -- , "mdeval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (IsNil (Value 1.0)) = " ++ show (mdeval d (IsNil (Value 1.0)))
       ]
