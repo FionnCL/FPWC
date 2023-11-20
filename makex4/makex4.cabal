@@ -1,0 +1,71 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.35.1.
+--
+-- see: https://github.com/sol/hpack
+
+name:           makex4
+version:        0.1.0.0
+description:    Please see README.md here
+author:         Andrew Butterfield
+maintainer:     Andrew.Butterfield@scss.tcd.ie
+copyright:      (c) 2023 Andrew Butterfield
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+
+library
+  exposed-modules:
+      Configuration
+      Exercise4
+      GenWrapper
+      Identity
+      ParseStackTest
+      RandomExercises
+      Randomisation
+      TopLevel
+      Uname2IdNo
+      Utilities
+  other-modules:
+      Paths_makex4
+  hs-source-dirs:
+      src
+  build-depends:
+      HsYAML
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , csv
+    , directory
+    , filepath
+    , loc
+    , process
+    , random
+    , text
+    , utf8-string
+  default-language: Haskell2010
+
+executable makex4
+  main-is: Main.lhs
+  other-modules:
+      Paths_makex4
+  hs-source-dirs:
+      makex4app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      HsYAML
+    , base >=4.7 && <5
+    , bytestring
+    , containers
+    , csv
+    , directory
+    , filepath
+    , loc
+    , makex4
+    , process
+    , random
+    , text
+    , utf8-string
+  default-language: Haskell2010
