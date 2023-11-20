@@ -36,7 +36,32 @@ type Thing = ([Int],[Bool])
 -- Q1 (8 marks)
 -- implement the following function (which always returns a value):
 mdeval :: MonadFail m => Dict -> CExpr -> m Float
-mdeval _ _ = error "Ex4Q1: mdeval not yet defined"
+mdeval _ (Value f) = f
+mdeval d (VarNm s) = (find s d)
+mdeval d (Divide x y)
+  = case (mdeval d x, mdeval d y) of
+      (Just m, Just n) -> if n==0.0 then Nothing else Just (m/n)
+      _ -> Nothing
+mdeval d (MulBy x y)
+  = case (mdeval d x, mdeval d y) of
+      (Just m, Just n) -> Just (m*n)
+      _ -> Nothing
+mdeval d (AddInv x)
+  = case (mdeval d x) of
+      (Just m) -> Just (0 - m)
+      _ -> Nothing
+mdeval d (Not x) 
+  = case (mdeval d x) of
+      (Just m) -> if m==0.0 then (mdeval d (Value 1.0)) else (mdeval d (Value 0.0))
+      _ -> Nothing
+mdeval d (Dfrnt x y)
+  = case (mdeval d x, mdeval d y) of
+      (Just m, Just n) -> if m/=n then (mdeval d (Value 1.0)) else (mdeval d (Value 0.0))
+      _ -> Nothing
+mdeval d (IsNil x)
+  = case (mdeval d x) of
+      (Just m) -> if m==0.0 then (mdeval d (Value 1.0)) else (mdeval d (Value 0.0))
+      _ -> Nothing
 
 -- Q2 (8 marks)
 -- Consider the following four recursive pattern definitions:
@@ -67,19 +92,19 @@ dofold (op,z) = foldR z op
 
 -- dofold lenTuple = len
 lenTuple :: (Int -> Int -> Int,Int)
-lenTuple = (undefined,undefined)
+lenTuple x y = dofold (x,y)
 
 -- dofold sumupTuple = sumup
 sumupTuple :: (Int -> Int -> Int,Int)
-sumupTuple = (undefined,undefined)
+sumupTuple = dofold (x,y)
 
 -- dofold prodTuple = prod
 prodTuple :: (Int -> Int -> Int,Int)
-prodTuple = (undefined,undefined)
+prodTuple = dofold (x,y)
 
 -- dofold catTuple = cat
 catTuple :: ([Thing] -> [Thing] -> [Thing],[Thing])
-catTuple = (undefined,undefined)
+catTuple = dofold (x,y)
 
 -- Q3 (11 marks)
 sub = subtract -- shorter!
