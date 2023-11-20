@@ -34,7 +34,8 @@ main
       , "meval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (Dfrnt (Value 1) (Value 1)) = " ++ show (meval d (Dfrnt (Value 1.0) (Value 1.0)))
       , "meval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (IsNil (Value 0.0)) = " ++ show (meval d (IsNil (Value 0.0)))
       , "meval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (IsNil (Value 1.0)) = " ++ show (meval d (IsNil (Value 1.0)))
-      , "meval empty list = " ++ show (meval [] 5)
+      , "meval [(\"X\",1)] (MulBy (VarNm \"B\") (Value 3)) = " ++ show (meval [("X",1)] (MulBy (VarNm "XD") (Value 3.0)))
+      , "meval [] (MulBy (VarNm \"B\") (Value 3)) = " ++ show (meval [] (MulBy (VarNm "XD") (Value 3.0)))
       
       , "\"simp\" Tests"
       , "simp (MulBy 20 0) = " ++ show (simp (MulBy (Value 20) (Value 0)))
