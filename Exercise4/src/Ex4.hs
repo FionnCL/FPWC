@@ -43,7 +43,7 @@ mdeval d (Divide x y)
   = do  a <- mdeval d x
         b <- mdeval d y
         if b==0.0
-          then return (0.0) -- I don't know what to return here
+          then fail ("Cannot divide by zero! ")
           else return (a/b)
 mdeval d (MulBy x y)
   = do  a <- mdeval d x
@@ -97,20 +97,20 @@ dofold (op,z) = foldR z op
 -- so that `dofold` can be used to implement the fns. above.
 
 -- dofold lenTuple = len
-lenTuple :: (Int -> Int -> Int,Int)
-lenTuple len z = dofold (len,z)
+-- lenTuple :: (Int -> Int -> Int,Int)
+-- lenTuple = (len,0)
 
 -- -- dofold sumupTuple = sumup
 -- sumupTuple :: (Int -> Int -> Int,Int)
--- sumupTuple = dofold (x,y)
+-- sumupTuple = (sumup,0)
 
 -- -- dofold prodTuple = prod
 -- prodTuple :: (Int -> Int -> Int,Int)
--- prodTuple = dofold (x,y)
+-- prodTuple = (prod,0)
 
 -- -- dofold catTuple = cat
 -- catTuple :: ([Thing] -> [Thing] -> [Thing],[Thing])
--- catTuple = dofold (x,y)
+-- catTuple = (cat,0)
 
 -- Q3 (11 marks)
 sub = subtract -- shorter!

@@ -244,10 +244,10 @@ suppliedQ1 rn@[ ex,val,var,dvd, binN,binNV,uniN,uniNV, binB,binBV,uniB,uniBV ]
       , "type Dict = [(String,Float)]"
       , "insert :: String -> Float -> Dict -> Dict"
       , "insert s f d = (s,f):d"
-      , "find :: String -> Dict -> Maybe Float"
-      , "find s [] = Nothing"
+      , "find :: MonadFail m => String -> Dict -> m Float"
+      , "find s [] = fail (s++\" not found\")"
       , "find s ((t,f):d)"
-      , "  | s==t       =  Just f"
+      , "  | s==t       =  return f"
       , "  | otherwise  =  find s d"
       ]
   where
