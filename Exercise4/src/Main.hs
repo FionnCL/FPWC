@@ -23,9 +23,10 @@ readWholeFile h
 
 
 
--- fCopyAllChars :: [Int] -> [Int] -> FilePath -> IO ()
--- fCopyAllChars (x:xs) (op:ops) tof
+-- fCopyAllChars :: [Int] -> [Int] -> [Int] -> FilePath -> IO ()
+-- fCopyAllChars savedxs (x:xs) (op:ops) tof
 --   = do  tf <- openFile tof WriteMode
+--         result <- fCopyAllChars savedxd xs ops tof
 --         writeWholeFile tf (result)
 --         hClose tf
 

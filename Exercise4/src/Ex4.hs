@@ -43,7 +43,7 @@ mdeval d (Divide x y)
   = do  a <- mdeval d x
         b <- mdeval d y
         if b==0.0
-          then fail ("Cannot divide by zero! ")
+          then fail ("Cannot divide by zero!")
           else return (a/b)
 mdeval d (MulBy x y)
   = do  a <- mdeval d x
