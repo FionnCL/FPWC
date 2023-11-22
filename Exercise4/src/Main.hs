@@ -2,8 +2,8 @@ module Main where
 
 import Ex4
 import System.IO
-import qualified Data.Text    as Text
-import qualified Data.Text.IO as Text
+--import qualified Data.Text    as Text
+--import qualified Data.Text.IO as Text
 
 d = [("XX",1),("XD",20),("DD", 41)]
 
@@ -35,7 +35,8 @@ readWholeFile h
 
 main
      = do
-        ls <- fmap Text.lines (Text.readFile "./input.dat")
+        --ls <- fmap Text.lines (Text.readFile "./input.dat")
+        ls <- "XD"
         print ls
 --   = putStrLn $ unlines
 --       [ "Running Exercise4."
