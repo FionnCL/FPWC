@@ -98,15 +98,15 @@ dofold (op,z) = foldR z op
 
 -- dofold lenTuple = len
 lenTuple :: (Int -> Int -> Int,Int)
-lenTuple = ((+), 0)
+lenTuple = ((incsnd),0)
 
 -- dofold sumupTuple = sumup
 sumupTuple :: (Int -> Int -> Int,Int)
-sumupTuple = ((+), 0)
+sumupTuple = ((+),0)
 
 -- dofold prodTuple = prod
 prodTuple :: (Int -> Int -> Int,Int)
-prodTuple = ((*), 1)
+prodTuple = ((*),1)
 
 -- dofold catTuple = cat
 catTuple :: ([Thing] -> [Thing] -> [Thing],[Thing])
