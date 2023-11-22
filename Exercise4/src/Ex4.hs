@@ -97,20 +97,20 @@ dofold (op,z) = foldR z op
 -- so that `dofold` can be used to implement the fns. above.
 
 -- dofold lenTuple = len
--- lenTuple :: (Int -> Int -> Int,Int)
--- lenTuple = (len,0)
+lenTuple :: (Int -> Int -> Int,Int)
+lenTuple = (0,(+))
 
--- -- dofold sumupTuple = sumup
--- sumupTuple :: (Int -> Int -> Int,Int)
--- sumupTuple = (sumup,0)
+-- dofold sumupTuple = sumup
+sumupTuple :: (Int -> Int -> Int,Int)
+sumupTuple = (0,(+))
 
--- -- dofold prodTuple = prod
--- prodTuple :: (Int -> Int -> Int,Int)
--- prodTuple = (prod,0)
+-- dofold prodTuple = prod
+prodTuple :: (Int -> Int -> Int,Int)
+prodTuple = (1,(*))
 
--- -- dofold catTuple = cat
--- catTuple :: ([Thing] -> [Thing] -> [Thing],[Thing])
--- catTuple = (cat,0)
+-- dofold catTuple = cat
+catTuple :: ([Thing] -> [Thing] -> [Thing],[Thing])
+catTuple = ([], (++))
 
 -- Q3 (11 marks)
 sub = subtract -- shorter!
