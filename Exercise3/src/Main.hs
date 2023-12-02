@@ -36,9 +36,9 @@ main
       , "meval [(\"XX\",1),(\"XD\",20),(\"DD\", 41)] (IsNil (Value 1.0)) = " ++ show (meval d (IsNil (Value 1.0)))
       
       , "\"simp\" Tests"
-      , "simp (MulBy 20 0) = " ++ show (simp (MulBy (Value 20) (Value 0)))
-      , "simp (MulBy 0 20) = " ++ show (simp (MulBy (Value 0) (Value 20)))
-      , "simp (MulBy 20 1) = " ++ show (simp (MulBy (Value 20) (Value 1)))
-      , "simp (MulBy 1 20) = " ++ show (simp (MulBy (Value 1) (Value 20)))
-      , "simp (MulBy 2 20) = " ++ show (simp (MulBy (Value 2) (Value 20)))
+      , "simp (MulBy (Value 20) (Value 0)) = " ++ show (simp (MulBy (Value 20) (Value 0)))
+      , "simp (MulBy (Value 0) (Value 20)) = " ++ show (simp (MulBy (Value 0) (Value 20)))
+      , "simp (MulBy (Value 20) (Value 1)) = " ++ show (simp (MulBy (Value 20) (Value 1)))
+      , "simp (MulBy (Value 1) (Value 20)) = " ++ show (simp (MulBy (Value 1) (Value 20)))
+      , "simp (MulBy (Value 2) (Value 20)) = " ++ show (simp (MulBy (Value 2) (Value 20)))
       ]
