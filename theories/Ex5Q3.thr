@@ -1,0 +1,20 @@
+THEORY Ex5Q3
+IMPORT-THEORY Equality
+IMPORT-THEORY Boolean
+IMPORT-THEORY Arithmetic
+IMPORT-THEORY List
+IMPORT-HASKELL List
+IMPORT-HASKELL Ex5
+
+THEOREM ex5q3
+
+   bonus xs == 10 + 13*(len xs) + sum xs
+
+STRATEGY ReduceAll
+
+  2+2 == 5
+
+END ReduceAll
+
+QED ex5q3
+

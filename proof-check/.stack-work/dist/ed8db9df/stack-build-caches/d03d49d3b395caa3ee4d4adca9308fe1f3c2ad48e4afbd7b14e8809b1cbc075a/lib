@@ -1,0 +1,26 @@
+C:\Users\camac\AppData\Local\Programs\stack\x86_64-windows\ghc-8.10.7\lib\include\ghcversion.h:
+  hash: c013160c9aa8a98f4638616496dce720c23ceca8ef9d6b3212b654642fbda5e4
+C:\Users\camac\Desktop\FPCW\proof-check\.stack-work\dist\ed8db9df\build\autogen\Paths_prfchk.hs:
+  hash: 81f784f2bfa91871c76e90b97b76fade002ccb70a957dd0be604c640d5bbc196
+C:\Users\camac\Desktop\FPCW\proof-check\.stack-work\dist\ed8db9df\build\autogen\cabal_macros.h:
+  hash: a0f9790a4a6ee7550c097d2057217e405f78ff5cf0360bb1b3e170b3aae941bc
+C:\Users\camac\Desktop\FPCW\proof-check\README.md:
+  hash: 4b6296a4c2c04033192d581308b28dcf6f8e324cc212008026ccd07c9fd15f14
+C:\Users\camac\Desktop\FPCW\proof-check\package.yaml:
+  hash: afe6d08251b7da8c166c0cbe2d28b67a1795dec789ee60848e0a197369396a89
+C:\Users\camac\Desktop\FPCW\proof-check\prfchk.cabal:
+  hash: 3e1d32a35edd62566321c644a162a34ba8f268d05950ffbc202561145ca4a1cc
+C:\Users\camac\Desktop\FPCW\proof-check\src\AST.lhs:
+  hash: 7f1015aa1c7142f8bfd7888f82fece7588fc1285f24d9245440e6bf3af14ee77
+C:\Users\camac\Desktop\FPCW\proof-check\src\Check.lhs:
+  hash: 2a70af8e36eff1b515c3d428541f3ac2b483b5a6826456f327dfa9c4bdc3a955
+C:\Users\camac\Desktop\FPCW\proof-check\src\HParse.lhs:
+  hash: 2c7d9d8801abfe8b6ab48b9d6f4940f4f2f299d297f8c3af0998b25ae8351ed6
+C:\Users\camac\Desktop\FPCW\proof-check\src\Matching.lhs:
+  hash: fb63a446e930c4d45cd279db8896acf01957b8b01317a708583cec4ab3786163
+C:\Users\camac\Desktop\FPCW\proof-check\src\REPL.lhs:
+  hash: 000dba4e8d1bc199baffea6556fb7b3077641f0cb0b87b8483d021412ec489f2
+C:\Users\camac\Desktop\FPCW\proof-check\src\Theory.lhs:
+  hash: 7f636317fcb78fc322dd42634466badc6b807653ba026775bfee3c617bdb43dc
+C:\Users\camac\Desktop\FPCW\proof-check\src\Utilities.lhs:
+  hash: f879faf47277446c60b2a27dd6dd70af7a0741a7eee0af689ba6892b5e85ae96

@@ -1,0 +1,43 @@
+THEORY LProduct
+
+IMPORT-THEORY Equality
+IMPORT-THEORY Arithmetic
+IMPORT-THEORY List
+IMPORT-HASKELL List
+
+THEOREM prod_mul
+    product (xs++ys)   ==   product xs * product ys
+
+STRATEGY Induction xs :: List
+
+    BASE []
+        product ([]++ys)   ==   product [] * product ys
+
+    STRATEGY ReduceAll
+        product ([]++ys)   ==   product [] * product ys
+        = DEF ++.3
+        product ys  ==   product [] * product ys
+
+    END ReduceAll
+
+    END BASE
+
+    STEP (x:xs)
+
+    ASSUME
+      product (xs++ys)   ==   product xs * product ys
+
+    SHOW
+      product ((x:xs)++ys)   ==   product (x:xs) * product ys
+
+    STRATEGY ReduceAll
+
+        product ((x:xs)++ys)   ==   product (x:xs) * product ys
+
+    END ReduceAll
+
+    END STEP
+
+END Induction 
+
+QED prods_mul

@@ -1,0 +1,20 @@
+THEORY Factorial
+
+IMPORT-HASKELL Factorial
+
+THEOREM iffac2
+    iffac 2 == 2
+
+    STRATEGY ReduceLHS
+
+      iffac 2
+    = DEF iffac
+      if 2 == 0 then 1 else (2 * iffac (2-1))
+    = SIMP
+      if False then 1 else (2 * iffac 1)
+    = IF 2
+      2 * iffac 1
+
+    END ReduceLHS
+     
+QED iffac2

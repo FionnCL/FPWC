@@ -1,0 +1,12 @@
+THEORY Boolean
+
+
+LAW and_left_unit    (True && p) == p
+LAW and_right_unit   (p && True) == p
+LAW and_left_zero    (False && p) == False
+LAW and_right_zero   (p && False) == False
+
+LAW or_left_unit    (False || p) == p
+LAW or_right_unit   (p || False) == p
+LAW or_left_zero    (True || p) == True
+LAW or_right_zero   (p || True) == True

@@ -1,0 +1,42 @@
+name:                prfchk
+version:             1.0.0.0
+license:             BSD3
+author:              "Andrew Butterfield"
+maintainer:          "Andrew.Butterfield@scss.tcd.ie"
+copyright:           "(c) 2017-2023 Andrew Butterfield"
+
+extra-source-files:
+- README.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         proof Checking for Haskell
+
+dependencies:
+- base >= 4.7 && < 5
+- transformers
+- containers
+- haskeline
+- haskell-src
+
+library:
+  source-dirs: src
+
+executables:
+  prfchk:
+    main:                Main.lhs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - prfchk
+    - haskell-src
+    - directory
+    - filepath

@@ -1,0 +1,58 @@
+THEORY Arithmetic
+
+INDUCTION-SCHEME Nat
+BASE 0
+STEP x --> x + 1
+INJ  ( x == y )  ==  ( (x + 1) == (y + 1) )
+
+LAW add_left_unit    0 + x == x
+LAW add_right_unit   x + 0 == x
+LAW add_symm         x + y == y + x
+LAW add_assoc  x + (y + z) ==  (x + y) + z
+
+LAW add_left_cancel   (x + y == x + z) == (y == z)
+LAW add_right_cancel   (x + y == z + y) == (x == z)
+
+LAW mul_left_unit    1 * x == x
+LAW mul_right_unit   x * 1 == x
+LAW mul_symm         x * y == y * x
+LAW mul_assoc  x * (y * z) ==  (x * y) * z
+LAW mul_left_zero    0 * x == 0
+LAW mul_right_zero   x * 0 == 0
+
+LAW mul_add_left_distr    x * (y + z) == x * y + x * z
+LAW mul_add_right_distr   (x + y) * z == x * z + y * z
+
+
+LAW sub_add_assoc  (x-y)-z == x-(y+z)
+LAW add_sub_assoc  x-(y-z) == (x+z)-y
+
+LAW le_def  (x <= y)  == ((x < y) || (x == y))
+LAW gt_def  (x >= y)  == ((x > y) || (x == y))
+
+LAW nat_add_order     x + y >= y
+LAW same_offset  ((x + y) >= (x + z)) == (y >= z)
+LAW nat_add_order_1  x+1 > x
+LAW nat_add_order_2  x+2 > x
+
+
+LAW eq_plus_1    (x+1 == y+1) == (x == y)
+LAW eq_minus_1   (x-1 == y-1) == (x == y)
+LAW lt_plus_1    (x+1 < y+1) == (x < y)
+LAW lt_minus_1   (x-1 < y-1) == (x < y)
+LAW gt_plus_1    (x+1 > y+1) == (x > y)
+LAW gt_minus_1   (x-1 > y-1) == (x > y)
+LAW le_plus_1    (x+1 <= y+1) == (x <= y)
+LAW le_minus_1   (x-1 <= y-1) == (x <= y)
+LAW ge_plus_1    (x+1 >= y+1) == (x >= y)
+LAW ge_minus_1   (x-1 >= y-1) == (x >= y)
+
+LAW lt_p1_to_m1  (x+1 < y) == (x < (y-1))
+LAW gt_p1_to_m1  (x+1 > y) == (x > (y-1))
+LAW le_p1_to_m1  (x+1 <= y) == (x <= (y-1))
+LAW ge_p1_to_m1  (x+1 >= y) == (x >= (y-1))
+
+LAW lt_widen    (x < n) == ((x < n) || (x < (n-1)))
+LAW gt_widen    (x > n) == ((x > n) || (x > (n+1)))
+LAW le_widen    (x <= n) == ((x <= n) || (x <= (n-1)))
+LAW ge_widen    (x >= n) == ((x >= n) || (x >= (n+1)))
