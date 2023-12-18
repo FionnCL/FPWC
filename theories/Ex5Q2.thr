@@ -10,11 +10,31 @@ THEOREM ex5q2
 
    frec 256 == 57344
 
-STRATEGY ReduceAll
+STRATEGY ReduceLHS
 
-  2+2 == 5
+    frec 256
+  = DEF frec
+    if 256 <= 4 then 7 else (256 * frec (256 `div` 8))
+  = SIMP
+    if False then 7 else (256 * frec 32)
+  = IF 256
+    256 * frec (32)
+  = DEF frec
+    if 32 <= 4 then 7 else (32 * frec (32 `div` 8))
+  = SIMP
+    if False then 7 else (32 * frec 4)
+  = IF 32
+    (256 * 32 * frec (4))
+  = DEF frec
+    if 4 <= 4 then 7 else (4 * frec (4 `div` 8))
+  = SIMP
+    if True then 7 else (4 * frec (0.5))
+  = IF 4
+    (256 * 32 * 7)
+  = SIMP
+    57344
 
-END ReduceAll
+END ReduceLHS
 
 QED ex5q2
 

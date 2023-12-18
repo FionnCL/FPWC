@@ -6,15 +6,32 @@ IMPORT-THEORY List
 IMPORT-HASKELL List
 IMPORT-HASKELL Ex5
 
+LAW sub_right_zero    x - 0 == x
+
 THEOREM ex5q1
 
    (((x - y) - z) + 0) - (1 * 0) == (1 * (x - (z + y))) * (1 * 1)
 
-STRATEGY ReduceAll
+STRATEGY ReduceBoth
 
-  2+2 == 5
+    LHS
+        (((x - y) - z) + 0) - (1 * 0)
+        = SIMP
+        (((x - y) - z) + 0) - 0
+        = LAW sub_right_zero l2r
+        ((x - y) - z) + 0
+        = LAW add_right_unit l2r
+        (x - y) - z
+    RHS
+        (1 * (x - (z + y))) * (1 * 1)
+        = SIMP
+        (1 * (x - (z + y))) * 1
+        = LAW mul_right_unit l2r
+        1 * (x - (z + y))
+        = LAW mul_left_unit l2r
+        x - (z + y)
 
-END ReduceAll
+END ReduceBoth
 
 QED ex5q1
 
