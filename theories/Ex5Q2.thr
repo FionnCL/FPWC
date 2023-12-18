@@ -17,20 +17,20 @@ STRATEGY ReduceLHS
     if 256 <= 4 then 7 else (256 * frec (256 `div` 8))
   = SIMP
     if False then 7 else (256 * frec 32)
-  = IF 256
-    256 * frec (32)
+  = IF 2
+    frec 32
   = DEF frec
-    if 32 <= 4 then 7 else (32 * frec (32 `div` 8))
+    if 32 <= 4 then 7 else 32 * frec (32 `div` 8)
   = SIMP
     if False then 7 else (32 * frec 4)
-  = IF 32
-    (256 * 32 * frec (4))
+  = IF 2
+    frec 4
   = DEF frec
-    if 4 <= 4 then 7 else (4 * frec (4 `div` 8))
+    if 4 <= 4 then 7 else 4 * frec(4 `div` 8)
   = SIMP
-    if True then 7 else (4 * frec (0.5))
-  = IF 4
-    (256 * 32 * 7)
+    if True then 7 else (4 * frec 0.5)
+  = IF 1
+    256 * 32 * 7
   = SIMP
     57344
 

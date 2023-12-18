@@ -10,11 +10,60 @@ THEOREM ex5q3
 
    bonus xs == 10 + 13*(len xs) + sum xs
 
-STRATEGY ReduceAll
+STRATEGY Induction xs :: List
 
-  2+2 == 5
+    BASE []
+        bonus []  ==  10 + 13*(len []) + sum []
 
-END ReduceAll
+        STRATEGY ReduceBoth
+
+        LHS
+
+            bonus []
+            = DEF bonus
+            10
+
+        RHS
+
+            10 + 13*(len []) + (sum [])
+            = DEF len
+            10 + 13*0 + (sum [])
+            = DEF sum
+            (10 + 13*0 + 0)
+
+        END ReduceBoth
+
+    END BASE
+
+    STEP (x:xs)
+
+        ASSUME
+
+            bonus xs == 10 + 13*(len xs) + sum xs
+
+        SHOW
+
+            bonus (x:xs) == 10 + 13*(len (x:xs)) + sum (x:xs)
+
+        STRATEGY ReduceBoth
+
+          LHS
+            bonus(x:xs)
+            = DEF bonus.2
+            x + 13 + bonus xs
+
+          RHS
+            10 + 13*(len (x:xs)) + sum (x:xs)
+            = DEF sum.2
+            10 + 13*(len (x:xs)) + (x + sum (xs))
+            = DEF len.2
+            10 + 13*(1 + len (xs)) + (x + sum (xs))
+
+        END ReduceBoth
+
+    END STEP
+
+END Induction
 
 QED ex5q3
 
