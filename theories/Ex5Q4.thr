@@ -10,11 +10,19 @@ THEOREM ex5q4
 
    casef (x+1) > casef x
 
-STRATEGY ReduceAll
+STRATEGY CaseSplit Plus1Order
 
-  2+2 == 5
+  CASE 1 (x < 9)
 
-END ReduceAll
+    SHOW  
+      mbr x (ins x (y:ys))
+
+    STRATEGY ReduceAll
+      mbr x (ins x (y:ys))
+
+  END CASE 1
+
+END CaseSplit
 
 QED ex5q4
 

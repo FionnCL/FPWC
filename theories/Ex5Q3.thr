@@ -29,7 +29,11 @@ STRATEGY Induction xs :: List
             = DEF len
             10 + 13*0 + (sum [])
             = DEF sum
-            (10 + 13*0 + 0)
+            (10 + (13 * 0)) + 0
+            = LAW add_right_unit l2r
+            10 + 13 * 0
+            = SIMP
+            10
 
         END ReduceBoth
 
@@ -50,14 +54,32 @@ STRATEGY Induction xs :: List
           LHS
             bonus(x:xs)
             = DEF bonus.2
-            x + 13 + bonus xs
+            ((x + 13) + bonus xs)
+            = LAW add_symm l2r @ + 1
+            ((13 + x) + bonus xs)
+            = LAW add_assoc r2l
+            (13 + (x + bonus xs)) 
+            = LAW add_symm l2r @ + 2
+            (13 + (bonus xs + x)) 
+            = INDHYP l2r @ bonus
+            13 + ((10 + (13 * len (xs)) + sum (xs)) + x)
+            = 
 
           RHS
             10 + 13*(len (x:xs)) + sum (x:xs)
             = DEF sum.2
             10 + 13*(len (x:xs)) + (x + sum (xs))
             = DEF len.2
-            10 + 13*(1 + len (xs)) + (x + sum (xs))
+            ((10 + (13 * (1 + len (xs)))) + (x + sum (xs)))
+            = LAW mul_add_left_distr l2r @ * 1
+            ((10 + (13 * 1 + 13 * len (xs))) + (x + sum (xs)))
+            = SIMP
+            ((10 + (13 + 13 * len (xs))) + (x + sum (xs)))
+            = LAW add_assoc l2r @ + 1
+            ((10 + 13) + 13 * len (xs)) + (x + sum (xs))
+            = SIMP
+            (23 + 13 * len (xs)) + (x + sum (xs))
+
 
         END ReduceBoth
 
