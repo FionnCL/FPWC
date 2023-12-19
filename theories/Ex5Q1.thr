@@ -22,6 +22,7 @@ STRATEGY ReduceBoth
         ((x - y) - z) + 0
         = LAW add_right_unit l2r
         (x - y) - z
+        
     RHS
         (1 * (x - (z + y))) * (1 * 1)
         = SIMP

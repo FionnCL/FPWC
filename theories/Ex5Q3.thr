@@ -63,7 +63,11 @@ STRATEGY Induction xs :: List
             (13 + (bonus xs + x)) 
             = INDHYP l2r @ bonus
             13 + ((10 + (13 * len (xs)) + sum (xs)) + x)
-            = 
+            = NORM +
+            ((((10 + 13) + x) + sum (xs)) + (13 * len (xs)))
+            = SIMP
+            (((23 + x) + sum (xs)) + (13 * len (xs)))
+            
 
           RHS
             10 + 13*(len (x:xs)) + sum (x:xs)
@@ -79,6 +83,8 @@ STRATEGY Induction xs :: List
             ((10 + 13) + 13 * len (xs)) + (x + sum (xs))
             = SIMP
             (23 + 13 * len (xs)) + (x + sum (xs))
+            = NORM + 
+            (((23 + x) + sum (xs)) + (13 * len (xs)))
 
 
         END ReduceBoth

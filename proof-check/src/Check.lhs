@@ -350,6 +350,7 @@ checkStep prfctxt goal (BECAUSE _ (D dnm i) howused what ln) goal' gln
                  , "  HowUsed  : "++show howused
                  , "  At       : "++show what
                  , "  Got      :  "++showExpr goal'
+                 , "Expected   :  "++showExpr goal''
                  ]
  where mds = mdls prfctxt
 \end{code}
@@ -371,6 +372,7 @@ checkStep prfctxt goal (BECAUSE _ (L lnm) howused what ln) goal' gln
                        [ "Use of LAW "++lnm++" "++show howused++" differs."
                        , "What: "++ show what
                        , "Got:\n"++showExpr goal'
+                       , "Expected   :  "++showExpr goal''
                        ]
  where ths = thrys prfctxt ; mds = mdls prfctxt
 \end{code}
@@ -396,6 +398,7 @@ checkStep prfctxt goal (BECAUSE _ (IF i) howused what ln) goal' gln
                   , "  HowUsed  : "++show howused
                   , "  At       : "++show what
                   , "  Got      :\n"++showExpr goal'
+                  , "Expected   :  "++showExpr goal''
                   , ""]
 \end{code}
 
@@ -421,6 +424,7 @@ checkStep prfctxt goal (BECAUSE _ (GRD i) howused what ln) goal' gln
                   , "  HowUsed  : "++show howused
                   , "  At       : "++show what
                   , "  Got      :\n"++showExpr goal'
+                  , "Expected   :  "++showExpr goal''
                   , ""]
 \end{code}
 
@@ -434,6 +438,7 @@ checkStep prfctxt goal (BECAUSE _ SMP _ _ ln) goal' gln
       else repSBad ln $ unlines
         [ "Use of SIMP differs."
         , "  Got      :\n"++showExpr goal'
+        , "Expected   :  "++showExpr goal''
         , ""]
 \end{code}
 
@@ -447,6 +452,7 @@ checkStep prfctxt goal (BECAUSE _ (NORM op) howused what ln) goal' gln
       else repSBad ln $ unlines
         [ "Use of NORM differs."
         , "  Got      :\n"++showExpr goal'
+        , "Expected   :  "++showExpr goal''
         , ""]
 \end{code}
 
@@ -467,7 +473,8 @@ checkStep prfctxt goal (BECAUSE _ IH  howused what ln) goal' gln
             then repSOk ln ("Use of INDHYP "++howatwhat++" is correct.")
             else repSBad ln $ unlines 
                    [ "Use of INDHYP "++howatwhat++" differs."
-                   , "  Got      :\n"++showExpr goal' 
+                   , "  Got      :\n"++showExpr goal'
+                   , "Expected   :  "++showExpr goal''
                    ]
  where howatwhat = show howused ++" @ "++show what
 \end{code}
