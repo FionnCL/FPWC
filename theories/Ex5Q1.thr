@@ -22,6 +22,10 @@ STRATEGY ReduceBoth
         ((x - y) - z) + 0
         = LAW add_right_unit l2r
         (x - y) - z
+        = LAW sub_add_assoc l2r
+        x - (y + z)
+        = LAW add_symm l2r @ + 1
+        x - (z + y)
         
     RHS
         (1 * (x - (z + y))) * (1 * 1)
@@ -35,4 +39,3 @@ STRATEGY ReduceBoth
 END ReduceBoth
 
 QED ex5q1
-
