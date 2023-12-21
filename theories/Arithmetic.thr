@@ -56,3 +56,6 @@ LAW lt_widen    (x < n) == ((x < n) || (x < (n-1)))
 LAW gt_widen    (x > n) == ((x > n) || (x > (n+1)))
 LAW le_widen    (x <= n) == ((x <= n) || (x <= (n-1)))
 LAW ge_widen    (x >= n) == ((x >= n) || (x >= (n+1)))
+
+LAW lt_eq_widen    (x < n) == ((x == (n-1)) || (x < (n-1)))
+LAW gt_eq_widen    (x > n) == ((x == (n+1)) || (x > (n+1)))

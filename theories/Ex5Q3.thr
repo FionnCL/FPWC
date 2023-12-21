@@ -68,7 +68,6 @@ STRATEGY Induction xs :: List
             = SIMP
             (((23 + x) + sum (xs)) + (13 * len (xs)))
             
-
           RHS
             10 + 13*(len (x:xs)) + sum (x:xs)
             = DEF sum.2
@@ -85,7 +84,6 @@ STRATEGY Induction xs :: List
             (23 + 13 * len (xs)) + (x + sum (xs))
             = NORM + 
             (((23 + x) + sum (xs)) + (13 * len (xs)))
-
 
         END ReduceBoth
 

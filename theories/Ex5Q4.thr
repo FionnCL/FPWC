@@ -6,8 +6,6 @@ IMPORT-THEORY List
 IMPORT-HASKELL List
 IMPORT-HASKELL Ex5
 
-LAW sub_right_zero    x - 0 == x
-
 THEOREM ex5q4
 
    casef (x+1) > casef x
@@ -99,7 +97,27 @@ STRATEGY CaseSplit Plus1Order
     STRATEGY ReduceAll
 
       casef (x+1) > casef x
-     
+        = DEF casef.1 @ casef 1
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | ((x + 1) >= 10) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = LAW lt_plus_1 r2l @ < 1
+          (case "guarded-if" of 
+              _ | ((x + 1) + 1 < 10 + 1) -> (2 * (x + 1))
+                | ((x + 1) >= 10) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = LAW lt_eq_widen l2r @ < 1
+          (case "guarded-if" of 
+              _ | (((x + 1) + 1 == 10 + 1 - 1) || ((x + 1) + 1 < (10 + 1 - 1))) -> (2 * (x + 1))
+                | ((x + 1) >= 10) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = 
+        
+          
     END ReduceAll
 
   END CASE 2
@@ -112,6 +130,108 @@ STRATEGY CaseSplit Plus1Order
     STRATEGY ReduceAll
         
         casef (x+1) > casef x
+        = DEF casef.1 @ casef 1
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | ((x + 1) >= 10) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = LAW ge_widen l2r @ >= 1
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | (((x + 1) >= 10) || ((x + 1) >= (10 + 1))) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = LAW gt_def l2r @ >= 2
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | (((x + 1) >= 10) || (((x + 1) > (10 + 1)) || ((x + 1) == (10 + 1)))) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = LAW eq_plus_1 l2r @ == 1
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | (((x + 1) >= 10) || (((x + 1) > (10 + 1)) || (x == 10))) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = CASEP Plus1Order 3 @ == 1
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | (((x + 1) >= 10) || ((x + 1) > (10 + 1) || True)) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = LAW or_right_zero l2r @ || 2
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | (((x + 1) >= 10) || True) -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = LAW or_right_zero l2r @ || 1
+          (case "guarded-if" of 
+              _ | ((x + 1) < 10) -> (2 * (x + 1))
+                | True -> (2 * (x + 1)) - 1) 
+          > 
+          casef x
+        = GRDIF 2
+          (2 * (x + 1)) - 1
+          >
+          casef x
+        = DEF casef.1 @ casef 1
+          (2 * (x + 1)) - 1
+          >
+          (case "guarded-if" of 
+              _ | (x < 10) -> (2 * x)
+                | (x >= 10) -> (2 * x) - 1) 
+        = LAW gt_def l2r @ >= 1
+          (2 * (x + 1)) - 1
+          >
+          (case "guarded-if" of 
+              _ | (x < 10) -> (2 * x)
+                | (x > 10 || x == 10) -> (2 * x) - 1) 
+        = CASEP Plus1Order 3 @ == 1
+          (2 * (x + 1)) - 1
+          >
+          (case "guarded-if" of 
+              _ | (x < 10) -> (2 * x)
+                | (x > 10 || True) -> (2 * x) - 1) 
+        = LAW or_right_zero l2r @ || 1
+          (2 * (x + 1)) - 1
+          >
+          (case "guarded-if" of 
+              _ | (x < 10) -> (2 * x)
+                | True -> (2 * x) - 1) 
+        = GRDIF 2
+          (2 * (x + 1)) - 1 > (2 * x) - 1
+        = LAW mul_add_left_distr l2r @ * 1
+          2 * x + 2 * 1 - 1 > 2 * x - 1
+        = LAW gt_minus_1 r2l @ > 1
+          2 * x + 2 * 1 - 1 - 1 > 2 * x - 1 - 1
+        = LAW gt_minus_1 r2l @ > 1
+          2 * x + 2 * 1 - 1 - 1 - 1 > 2 * x - 1 - 1 - 1
+        = LAW sub_add_assoc l2r @ - 3
+          2 * x + 2 * 1 - 1 - (1 + 1) > 2 * x - 1 - 1 - 1
+        = LAW sub_add_assoc l2r @ - 2
+          (2 * x + 2 * 1) - (1 + (1 + 1)) > 2 * x - 1 - 1 - 1
+        = LAW add_sub_assoc r2l @ - 1
+          (2 * x) - (1 + (1 + 1) - 2 * 1) > 2 * x - 1 - 1 - 1
+        = SIMP
+          (2 * x) - 1 > (2 * x) - 1 - 1 - 1
+        = LAW gt_minus_1 l2r @ > 1
+          (2 * x) > (2 * x) - 1 - 1
+        = LAW gt_p1_to_m1 r2l @ > 1
+          (2 * x) + 1 > (2 * x) - 1
+        = LAW gt_p1_to_m1 r2l @ > 1
+          (((2 * x) + 1) + 1) > 2 * x
+        = NORM +
+          (((1 + 1) + (2 * x)) > (2 * x))
+        = SIMP  
+          ((2 + (2 * x)) > (2 * x))
+        = LAW add_symm l2r @ + 1
+          (2 * x) + 2 > (2 * x)
+        = LAW nat_add_order_2 @ > 1
+          True
+
+            
      
     END ReduceAll
 
@@ -137,52 +257,22 @@ STRATEGY CaseSplit Plus1Order
                 | (((x + 1) >= 10) || ((x + 1) >= 10 + 1)) -> (2 * (x + 1)) - 1) 
           > 
           casef x
-        = SIMP
-          (case "guarded-if" of 
-              _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || ((x + 1) >= 11)) -> (2 * (x + 1)) - 1) 
-          > 
-          casef x
         = LAW gt_def l2r @ >= 2
           (case "guarded-if" of 
               _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || (((x + 1) > 11) || ((x + 1) == 11))) -> (2 * (x + 1)) - 1) 
+                | (((x + 1) >= 10) || ((x + 1) > 10 + 1) || ((x + 1) == 10 + 1)) -> (2 * (x + 1)) - 1) 
           > 
           casef x
-        = LAW  gt_minus_1 r2l @ > 1
+        = LAW gt_plus_1 l2r @ > 1
           (case "guarded-if" of 
               _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || (((x + 1) - 1 > 11 - 1) || ((x + 1) == 11))) -> (2 * (x + 1)) - 1) 
-          > 
-          casef x
-        = SIMP
-          (case "guarded-if" of 
-              _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || (((x + 1) - 1 > 10) || ((x + 1) == 11))) -> (2 * (x + 1)) - 1) 
-          > 
-          casef x
-        = LAW add_sub_assoc r2l @ - 1
-          (case "guarded-if" of 
-              _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || ((x - (1 - 1) > 10) || ((x + 1) == 11))) -> (2 * (x + 1)) - 1) 
-          > 
-          casef x
-        = SIMP
-          (case "guarded-if" of 
-              _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || ((x - 0 > 10) || ((x + 1) == 11))) -> (2 * (x + 1)) - 1) 
-          > 
-          casef x
-        = LAW sub_right_zero l2r @ - 1
-          (case "guarded-if" of 
-              _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || ((x > 10) || ((x + 1) == 11))) -> (2 * (x + 1)) - 1) 
+                | (((x + 1) >= 10) || ((x > 10) || ((x + 1) == 10 + 1))) -> (2 * (x + 1)) - 1) 
           > 
           casef x
         = CASEP Plus1Order 4 @ > 1
           (case "guarded-if" of 
               _ | ((x + 1) < 10) -> (2 * (x + 1))
-                | (((x + 1) >= 10) || (True || ((x + 1) == 11))) -> (2 * (x + 1)) - 1) 
+                | (((x + 1) >= 10) || (True || ((x + 1) == 10 + 1))) -> (2 * (x + 1)) - 1) 
           > 
           casef x
         = LAW or_left_zero l2r @ || 2
