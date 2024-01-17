@@ -26,14 +26,14 @@ catchIO :: IO a -> (Exception.IOException -> IO a) -> IO a
 catchIO = Exception.catch
 
 version :: Version
-version = Version [1,0,0,0] []
+version = Version [1,0,1,0] []
 bindir, libdir, dynlibdir, datadir, libexecdir, sysconfdir :: FilePath
 
 bindir     = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\bin"
-libdir     = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\lib\\x86_64-windows-ghc-8.10.7\\prfchk-1.0.0.0-C4254jxdc4KjOSS0kU5W0"
+libdir     = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\lib\\x86_64-windows-ghc-8.10.7\\prfchk-1.0.1.0-1rrOruPS2FoIo7zjIJh69l"
 dynlibdir  = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\lib\\x86_64-windows-ghc-8.10.7"
-datadir    = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\share\\x86_64-windows-ghc-8.10.7\\prfchk-1.0.0.0"
-libexecdir = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\libexec\\x86_64-windows-ghc-8.10.7\\prfchk-1.0.0.0"
+datadir    = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\share\\x86_64-windows-ghc-8.10.7\\prfchk-1.0.1.0"
+libexecdir = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\libexec\\x86_64-windows-ghc-8.10.7\\prfchk-1.0.1.0"
 sysconfdir = "C:\\Users\\camac\\Desktop\\FPCW\\proof-check\\.stack-work\\install\\659f3b9f\\etc"
 
 getBinDir, getLibDir, getDynLibDir, getDataDir, getLibexecDir, getSysconfDir :: IO FilePath

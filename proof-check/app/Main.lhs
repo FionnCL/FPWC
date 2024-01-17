@@ -25,7 +25,7 @@ mdbg msg x = return $! dbg msg x
 \end{code}
 
 \begin{code}
-version = "1.0.0.0"
+version = "1.0.1.0"
 \end{code}
 
 \chapter{Main Program}

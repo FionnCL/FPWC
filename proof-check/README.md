@@ -262,7 +262,7 @@ A `<justification>` has one compulsory component (`<law>`), and two optional com
 
 #### law (mandatory):
 
-The `<law>` component identifies the logical/mathematical justification for the change being mave between the expression before this justification and the one after it. It can be an explicit reference to an actual law (`LAW`), or to a Haskell definition of a value or function (`DEF`), which effectively define laws.
+The `<law>` component identifies the logical/mathematical justification for the change being mave between the expression before this justification and the one after it. It can be an explicit reference to an actual law (`LAW`), or to a Haskell definition of a value or function (`DEF`), which effectively define laws).
 In addition, the meaning of conditionals (`if`,`case`) induce laws (`IF`, `GRDIF`) that describe their outcomes. Here it suffices to indicate which condition branch has evaluated to `True`. For case-based reasoning and the induction step-case, we need to be able to use the case expression (`CASEP`) and inductive hypothesis (`INDHYP`) as laws. We support a deep-recursive simplfier (`SIMP`) for simple arithmetic and boolean simplifications, and a normaliser (`NORM`) that takes nested additions or multiplications and flattens them out and sorts them (saves **lots** of use of associativity and symmetry laws!)
 
 Currently we handle the Haskell if-expression, and a variant of the Haskell case-expression that corresponds to a single pattern with multiple guards.
