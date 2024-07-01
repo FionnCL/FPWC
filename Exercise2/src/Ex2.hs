@@ -54,16 +54,6 @@ f4 :: [Maybe Int] -> (Int, [Maybe Int])
 --    |   53   |    mul    | stop@ 6  | skip    |
 --    |   35   |    mul    | stop@ 3  | 1       |
 --    -------------------------------------------
--- -1 = term, -2 = skip, any other value will be set as the number it must be
--- I know the code is kind of giving spaghetti vibes so I apologise to anyone reading it.
--- Structure is as goes:
---  - fixed functions will take the first X values as required, and deal with a skip, termination or def-value as required too.
---  - stop functions will find where to stop. This differs depending on if the function is a terminate function.
---      - This is important as it will give return[1] in the tuple, which if it is meant to terminate, yet there is no value to stop@, then it will go on forever.
---      - This leaves us with the correct answer in return[0], but an empty list in return[1], as it drops all the values out of it.
--- I know there were shorter ways to do this, such as simply having this opcode guard, followed by a single function with arguments like operation type and nothing handler -
--- to then iterate through the list and build it as you go. As this is my first time doing anything real in Haskell I just started programming and learning as I go. Forgive any-
--- spaghetti code, I will improve it next time.
 
 -- NOTE: I IMPLEMENTED MY OWN ADD AND MUL FUNCTIONS SO THAT IS WHY THERE ARE MODULI FUNCTIONS HERE! 
 f4 (Nothing:xs) = f4 xs
@@ -101,16 +91,10 @@ f4 (Just x:xs)
 --        f4 [23,2,4,6,2,0,rest] results in 96,rest
 --        f4 [23,2,X,6,2,0,rest] results in 24,rest
 --        f4 [23,2,6,2,2,2] results in 96,[]
---        
 --        f4, given an empty list, returns 0.
--- 
 
 -- Q5 (2 marks)
 f5 :: [Maybe Int] -> [Int]
--- uses f4 to process all the opcodes in the maybe list,
--- by repeatedly applying it to the leftover part
--- fst(f4 (x:xs)) gets the current answer, if it can. If not, it keeps iterating to a next number in the f4 function.
--- f5(snd (f4 (x:xs))) takes the "rest" of the list after f4 is done its operations. Then it recurses and continues to next number.
 f5 [] = []
 f5 (x:xs) = fst(f4 (x:xs)) : f5(snd (f4 (x:xs)))
 
